@@ -14,6 +14,7 @@
     "strictPropertyInitialization": false,
     "sourceMap": false,
     "newLine": "LF",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "useUnknownInCatchVariables": false
   }
 }

@@ -21,6 +21,16 @@ import path from 'path';
 import { DataSourceOptions } from 'typeorm';
 
 import { MultivendorPlugin } from './example-plugins/multivendor-plugin/multivendor.plugin';
+import { tpayPaymentHandler } from '../payment/payment-handler';
+import {
+    GoogleStoragePlugin,
+    GoogleStorageStrategy,
+} from "@pinelab/vendure-plugin-google-storage-assets";
+import { TpayPlugin } from '../tpay/tpay.plugin';
+import { PaymentPlugin } from '../payment/payment.plugin';
+
+
+const IS_DEV = process.env.APP_ENV === 'dev';
 
 /**
  * Config settings used during development
@@ -29,19 +39,19 @@ export const devConfig: VendureConfig = {
     apiOptions: {
         port: API_PORT,
         adminApiPath: ADMIN_API_PATH,
-        adminApiPlayground: {
-            settings: {
-                'request.credentials': 'include',
+        ...(IS_DEV ? {
+            adminApiPlayground: {
+                settings: { 'request.credentials': 'include' },
             },
-        },
-        adminApiDebug: true,
+            adminApiDebug: true,
+        } : {}),
         shopApiPath: SHOP_API_PATH,
-        shopApiPlayground: {
-            settings: {
-                'request.credentials': 'include',
+        ...(IS_DEV ? {
+            shopApiPlayground: {
+                settings: { 'request.credentials': 'include' },
             },
-        },
-        shopApiDebug: true,
+            shopApiDebug: true,
+        } : {}),
     },
     authOptions: {
         disableAuth: false,
@@ -49,17 +59,22 @@ export const devConfig: VendureConfig = {
         requireVerification: true,
         customPermissions: [],
         cookieOptions: {
-            secret: 'abc',
+            secret: process.env.COOKIE_SECRET,
         },
     },
     dbConnectionOptions: {
+        type: 'mysql',
         synchronize: false,
         logging: false,
         migrations: [path.join(__dirname, 'migrations/*.ts')],
-        ...getDbConfig(),
+        database: process.env.DB_NAME,
+        host: process.env.DB_HOST,
+        port: 3306,
+        username: process.env.DB_USERNAME,
+        password: process.env.DB_PASSWORD,
     },
     paymentOptions: {
-        paymentMethodHandlers: [dummyPaymentHandler],
+        paymentMethodHandlers: [tpayPaymentHandler],
     },
 
     customFields: {},
@@ -72,9 +87,18 @@ export const devConfig: VendureConfig = {
         //     platformFeePercent: 10,
         //     platformFeeSKU: 'FEE',
         // }),
+        GoogleStoragePlugin,
         AssetServerPlugin.init({
-            route: 'assets',
-            assetUploadDir: path.join(__dirname, 'assets'),
+            storageStrategyFactory: () =>
+            new GoogleStorageStrategy({
+                bucketName: process.env.BUCKET as string,
+                thumbnails: {
+                height: 500,
+                width: 500,
+                },
+            }),
+            route: "assets",
+            assetUploadDir: "/tmp/vendure/assets",
         }),
         DefaultSearchPlugin.init({ bufferUpdates: false, indexStockStatus: false }),
         // Enable if you need to debug the job queue
@@ -121,6 +145,8 @@ export const devConfig: VendureConfig = {
             //     devMode: true,
             // }),
         }),
+        TpayPlugin.init({}),
+        PaymentPlugin.init({}),
     ],
 };
 

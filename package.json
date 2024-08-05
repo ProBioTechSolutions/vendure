@@ -92,8 +92,7 @@
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS",
-      "post-commit": "git update-index --again",
-      "pre-commit": "NODE_OPTIONS=\"--max-old-space-size=8096\" lint-staged"
+      "post-commit": "git update-index --again"
     }
   },
   "dependencies": {
@@ -103,6 +102,9 @@
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-jsdoc": "^45.0.0",
-    "eslint-plugin-prefer-arrow": "^1.2.3"
+    "eslint-plugin-prefer-arrow": "^1.2.3",
+    "axios": "^1.7.3",
+    "superagent": "^9.0.2",
+    "ts-md5": "*"
   }
 }
