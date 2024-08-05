@@ -2,8 +2,8 @@ name: Deploy Vendure
 on:
   push:
     branches:
-      - develop
       - main
+      - master
   workflow_dispatch:
 
 env:
