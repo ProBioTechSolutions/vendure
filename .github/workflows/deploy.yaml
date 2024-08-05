@@ -26,7 +26,6 @@ jobs:
         run: ./build-docker.sh ekosynbiotyk
 
   deploy-production:
-    if: ${{ github.ref == 'refs/heads/main' }}
     name: Deploying Prod ${{ matrix.instances.name }} with ${{ matrix.instances.secret }}
     needs: [ build ]
     strategy:

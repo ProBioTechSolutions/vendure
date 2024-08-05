@@ -26,7 +26,6 @@
         "ts-md5": "*"
     },
     "devDependencies": {
-        "@pinelab/vendure-plugin-google-storage-assets": "*",
         "@vendure/testing": "^3.0.0",
         "@vendure/ui-devkit": "^3.0.0",
         "commander": "^12.0.0",

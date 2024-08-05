@@ -25,7 +25,7 @@ import { tpayPaymentHandler } from '../payment/payment-handler';
 import {
     GoogleStoragePlugin,
     GoogleStorageStrategy,
-} from "@pinelab/vendure-plugin-google-storage-assets";
+} from "../vendure-plugin-google-storage-assets/src";
 import { TpayPlugin } from '../tpay/tpay.plugin';
 import { PaymentPlugin } from '../payment/payment.plugin';
 
