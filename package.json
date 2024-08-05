@@ -15,7 +15,9 @@
     "docs:build": "npm run docs:generate-typescript-docs && npm run docs:generate-graphql-docs",
     "codegen": "tsc -p scripts/codegen/plugins && ts-node scripts/codegen/generate-graphql-types.ts",
     "version": "npm run check-imports && npm run check-angular-versions && npm run build && npm run check-core-type-defs && npm run generate-changelog && git add CHANGELOG* && git add */version.ts",
-    "dev-server:start": "cd packages/dev-server && npm run start",
+    "run:server": "node -r ts-node/register -r dotenv/config packages/dev-server/index.ts",
+    "run:worker": "node -r ts-node/register -r dotenv/config packages/dev-server/index-worker.ts",
+    "start": "concurrently npm:run*",
     "test": "lerna run test --stream --no-bail",
     "e2e": "lerna run e2e --stream --no-bail",
     "build": "lerna run build",
@@ -26,6 +28,9 @@
     "publish-release": "lerna publish -m \"chore: Publish %s\" --no-push --force-publish",
     "publish-prerelease": "lerna publish -m \"chore: Pre-release %s\" prerelease --exact --no-push --force-publish --preid next --dist-tag next",
     "publish-local": "lerna version --force-publish --no-git-tag-version && cd scripts && ./publish-to-verdaccio.sh"
+  },
+  "peerDependencies": {
+    "sharp": "*"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.1.0",
@@ -40,9 +45,15 @@
     "@swc/core": "^1.4.6",
     "@types/klaw-sync": "^6.0.5",
     "@types/node": "^20.11.19",
+    "@types/tmp": "^0.2.6",
+    "@vendure/testing": "^3.0.0",
+    "@vendure/ui-devkit": "^3.0.0",
+    "commander": "^12.0.0",
     "concurrently": "^8.2.2",
     "conventional-changelog-core": "^7.0.0",
     "cross-env": "^7.0.3",
+    "csv-stringify": "^6.4.6",
+    "dayjs": "^1.11.10",
     "find": "^0.3.0",
     "graphql": "~16.9.0",
     "husky": "^4.3.0",
@@ -50,7 +61,9 @@
     "lerna": "^8.1.2",
     "lint-staged": "^10.5.4",
     "prettier": "^3.2.5",
+    "progress": "^2.0.3",
     "rollup": "^4.18.0",
+    "sharp": "^0.33.4",
     "tinybench": "^2.6.0",
     "ts-node": "^10.9.2",
     "typescript": "5.3.3",
@@ -90,15 +103,26 @@
     }
   },
   "dependencies": {
+    "@google-cloud/storage": "^5.18.2",
+    "@nestjs/axios": "^3.0.2",
     "@typescript-eslint/eslint-plugin": "^5.54.1",
     "@typescript-eslint/parser": "^5.54.1",
+    "@vendure/admin-ui-plugin": "^3.0.0",
+    "@vendure/asset-server-plugin": "^3.0.0",
+    "@vendure/common": "^3.0.0",
+    "@vendure/core": "^3.0.0",
+    "@vendure/elasticsearch-plugin": "^3.0.0",
+    "@vendure/email-plugin": "^3.0.0",
+    "axios": "^1.7.3",
     "eslint": "^8.41.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-jsdoc": "^45.0.0",
     "eslint-plugin-prefer-arrow": "^1.2.3",
-    "axios": "^1.7.3",
+    "mysql": "^2.18.1",
     "superagent": "^9.0.2",
-    "ts-md5": "*"
+    "tmp": "^0.2.1",
+    "ts-md5": "*",
+    "typescript": "5.3.3"
   }
 }

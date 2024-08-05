@@ -16,7 +16,7 @@ import { NotificationsController } from './api/notifications.controller';
         // modifying the `config` object.
         return config;
     },
-    compatibility: '^2.0.0',
+    compatibility: '^3.0.0',
 })
 export class TpayPlugin {
     static options: PluginInitOptions;

@@ -3,7 +3,6 @@ import { Controller, Post, HttpStatus, Res } from '@nestjs/common';
 import { Ctx, PaymentService, RequestContext } from '@vendure/core';
 import { TpayNotification } from "./tpay.notification"
 import { Response } from 'express';
-import { validateJwsSignature } from "./jws.api"
 
 
 @Controller('notifications')

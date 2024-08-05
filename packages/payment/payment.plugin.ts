@@ -20,7 +20,7 @@ const port = 3004;
         // modifying the `config` object.
         return config;
     },
-    compatibility: '^2.0.0',
+    compatibility: '^3.0.0',
 })
 export class PaymentPlugin {
     static options: PluginInitOptions;

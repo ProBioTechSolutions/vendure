@@ -1,8 +1,6 @@
-import https from "https"
 import 'dotenv/config';
 const superagent = require('superagent');
 const pki = require('node-forge').pki;
-import * as crypto from 'crypto';
 
 
 class JwsData {
