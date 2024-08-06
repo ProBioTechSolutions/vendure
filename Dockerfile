@@ -14,4 +14,4 @@ RUN npm run build
 # PhantomJS fix https://github.com/bazelbuild/rules_closure/issues/351
 ENV OPENSSL_CONF=/dev/null
 
-CMD npm run dev-server:start
+CMD npm run start
